@@ -29,6 +29,12 @@ module.exports = {
         ]
       },
     ],
+    [
+      '@vuepress/google-analytics',
+      {
+        'ga': 'UA-86298610-5'
+      }
+    ]
   ],
   themeConfig: {
     /**
