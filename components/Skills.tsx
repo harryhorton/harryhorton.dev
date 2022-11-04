@@ -12,7 +12,7 @@ export const Skills = ({ skills }: { skills: Skill[] }) => (
       )
       .map((skill) => (
         <li
-          className={`bg-sky-600 rounded text-white text-sm px-2 mr-2 mb-2 flex items-center`}
+          className={`bg-sky-600 rounded text-white print:text-black text-sm px-2 mr-2 mb-2 flex items-center`}
           key={skill.name}
         >
           {skill.name}{" "}

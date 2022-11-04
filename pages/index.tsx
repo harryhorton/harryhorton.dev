@@ -1,32 +1,52 @@
+import { GetServerSideProps } from "next";
 import Image from "next/image";
-import { Bars } from "../components/bars";
+import { EmailIcon } from "../components/icons/email";
+import { GithubIcon } from "../components/icons/github";
+import { LinkedInIcon } from "../components/icons/linkedin";
+import { PhoneIcon } from "../components/icons/phone";
 import { Skills, stringsToSkills } from "../components/Skills";
-import { Skill, skills } from "../data/skills";
+import { skills } from "../data/skills";
 import { jobHistory } from "../data/work-history";
 import profilePic from "../public/profile-pic.jpeg";
 
-const tagColor: Record<Skill["type"], string> = {
-  language: "bg-sky-600",
-  concept: "bg-sky-600",
-  framework: "bg-sky-600",
-  platform: "bg-sky-600",
-  protocol: "bg-sky-600",
-  tool: "bg-sky-600",
+const socialStyles = "fill-slate-600 h-5 w-5 inline-block mr-3";
+
+export type HomeSsrProps = {
+  isResume: boolean;
+  phone: string;
+  email: string;
 };
 
-export default function Home() {
-  return (
-    <article className="container mx-auto p-3">
-      <div className="flex">
-        <Image
-          src={profilePic}
-          alt="photo of harry"
-          width={300}
-          height={335}
-          className="rounded-full w-72 h-72 object-cover shadow-"
-        />
+export const getServerSideProps: GetServerSideProps<
+  HomeSsrProps,
+  { resume: any }
+> = async (context) => {
+  console.log(context.query);
+  const isResume = Boolean(context.query?.resume);
+  return {
+    props: {
+      isResume,
+      phone: (isResume && process.env.PHONE) || "phone number",
+      email: (isResume && process.env.EMAIL) || "email@email.com",
+    },
+  };
+};
 
-        <div className="px-12">
+export default function Home({ isResume, phone, email }: HomeSsrProps) {
+  return (
+    <article className="container max-w-screen-md mx-auto p-3">
+      <div className="flex">
+        {!isResume && (
+          <Image
+            src={profilePic}
+            alt="photo of harry"
+            width={300}
+            height={335}
+            className="rounded-full mr-10 w-72 h-72 object-cover"
+          />
+        )}
+
+        <div className="">
           <section className="mb-6">
             <h1 className="text-3xl mb-3">
               <span className="block">Harry Horton</span>
@@ -34,15 +54,57 @@ export default function Home() {
                 Software Engineer
               </span>
             </h1>
-            <p>
-              As a full-stack web application developer, Harry has experience
-              building real-time data streaming, highly secure intelligence
-              applications, global web and mobile apps used by millions of
-              users, and much more. He enjoys building beautiful applications
-              that solve critical business and operational needs. As the lead
-              developer on i911.com, he's written code that literally saves
-              lives and is used across the US in emergency situations.
+            <p className="mb-3">
+              As a full-stack web application developer, Harry has developed
+              real-time location streaming services to save lives, web and
+              mobile applications used by millions of users, design systems and
+              component libraries to bring a truly professional touch to apps,
+              and much more. He loves to work on applications where he's able to
+              create a joyful experience for both the users and the developers.
             </p>
+            <ul>
+              {isResume && (
+                <>
+                  <li className="flex mb-1">
+                    <EmailIcon className={socialStyles} />
+                    <a
+                      href={`mailto:${email}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {email}
+                    </a>
+                  </li>
+                  <li className="flex mb-1">
+                    <PhoneIcon className={socialStyles} />
+                    <a href={`tel:${phone}`} target="_blank" rel="noreferrer">
+                      {phone}
+                    </a>
+                  </li>
+                </>
+              )}
+              <li className="flex mb-1">
+                <GithubIcon className={socialStyles} />
+                <a
+                  href="http://github.com/harryhorton"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:underline"
+                >
+                  github.com/harryhorton
+                </a>
+              </li>
+              <li className="flex mb-1">
+                <LinkedInIcon className={socialStyles} />
+                <a
+                  href="https://www.linkedin.com/in/john-harrison-horton/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  linkedin.com/in/john-harrison-horton
+                </a>
+              </li>
+            </ul>
           </section>
         </div>
       </div>
