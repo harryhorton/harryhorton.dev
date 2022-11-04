@@ -5,6 +5,7 @@ import { GithubIcon } from "../components/icons/github";
 import { LinkedInIcon } from "../components/icons/linkedin";
 import { PhoneIcon } from "../components/icons/phone";
 import { Skills, stringsToSkills } from "../components/Skills";
+import { bio } from "../data/bio";
 import { skills } from "../data/skills";
 import { jobHistory } from "../data/work-history";
 import profilePic from "../public/profile-pic.jpeg";
@@ -54,14 +55,7 @@ export default function Home({ isResume, phone, email }: HomeSsrProps) {
                 Software Engineer
               </span>
             </h1>
-            <p className="mb-3">
-              As a full-stack web application developer, Harry has developed
-              real-time location streaming services to save lives, web and
-              mobile applications used by millions of users, design systems and
-              component libraries to bring a truly professional touch to apps,
-              and much more. He loves to work on applications where he's able to
-              create a joyful experience for both the users and the developers.
-            </p>
+            <p className="mb-3">{bio}</p>
             <ul>
               {isResume && (
                 <>
